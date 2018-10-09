@@ -1,0 +1,22 @@
+{
+  "name": "second-hand-furniture-trading-website",
+  "version": "1.0.0",
+  "description": "COMS 6156",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halflkaka/Second-hand-furniture-trading-website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/halflkaka/Second-hand-furniture-trading-website/issues"
+  },
+  "homepage": "https://github.com/halflkaka/Second-hand-furniture-trading-website#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
