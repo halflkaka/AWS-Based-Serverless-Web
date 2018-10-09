@@ -7,5 +7,7 @@ Zirui Tan (zt2219)
 
 Ang Li(al3699) al3699@columbia.edu
 
+Xuewei Fan(xf2166)
+
 
 
