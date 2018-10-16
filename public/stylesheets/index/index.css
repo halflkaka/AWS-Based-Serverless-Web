@@ -1,0 +1,289 @@
+body{
+    font-family: 'Oswald', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-size: 12px;
+    height: 100%;
+    width: 100%;
+}
+
+.body{
+    position: absolute;
+    font-family: 'Oswald', sans-serif !important;
+    height: 100%;
+    width: 100%;
+    background-image: url(/img/bg-img/1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-filter: blur(3px);
+    z-index: 0;
+}
+
+.grad{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0.2))); /* Chrome,Safari4+ */
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.header{
+    position: absolute;
+    top: calc(50% - 150px);
+    left: calc(50% - 360px);
+    z-index: 2;
+    background-color: rgba(58, 58, 58,0.8);
+    height: 300px;
+    width: 700px;
+    box-shadow: 0 0 10px 8px rgba(217, 217, 217, 0.5);
+}
+
+.header .imageBackground{
+    position:absolute;
+    float: left;
+    color: #fff;
+    font-size: 35px;
+    font-weight: 200;
+    width: 380px;
+    height: 100%;
+    background-image: url(/images/wanxiang_1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.header .imageBackground .grad{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.9)), color-stop(100%,rgba(0,0,0,0.5))); /* Chrome,Safari4+ */
+    z-index: 0;
+    opacity: 0.7;
+}
+
+.header .imageBackground .logo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.header .imageBackground .des {
+    position: absolute;
+    width: 68%;
+    height: 2.2em;
+    margin-top: 200px;
+    z-index: 1;
+    padding-right: 6px;
+    border-right: 6px solid white;
+}
+
+.header .imageBackground .des .half {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 1em;
+    margin-top: -0.2em;
+    text-align: right;
+    font-size: 0.8em;
+}
+
+.header .imageBackground .logo img{
+    width: 35%;
+    height: auto;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 30px;
+}
+
+
+
+.login{
+    position: absolute;
+    top: calc(50% - 120px);
+    left: calc(50% + 40px);
+    height: 150px;
+    width: 350px;
+    padding: 10px;
+    z-index: 2;
+}
+
+.login span {
+    width: 250px;
+    height: 40px;
+    line-height: 60px;
+    font-size: 12px;
+
+}
+
+.login input[type=text]{
+    width: 250px;
+    height: 30px;
+    font-family: 'Oswald', sans-serif !important;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 0px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px;
+}
+
+.login input[type=password]{
+    width: 250px;
+    height: 30px;
+    font-family: 'Oswald', sans-serif !important;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 0px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px;
+    margin-top: 10px;
+}
+
+.login input[type=submit]{
+    width: 260px;
+    height: 35px;
+    font-family: 'Oswald', sans-serif !important;
+    background: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    border-radius: 0px;
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.login input[type=submit]:hover{
+    opacity: 0.8;
+}
+
+.login input[type=submit]:active{
+    opacity: 0.6;
+}
+
+.login input[type=text]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+}
+
+.login input[type=password]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+}
+
+.login input[type=submit]:focus{
+    outline: none;
+}
+
+.register{
+    position: absolute;
+    top: calc(50% - 120px);
+    left: calc(50% - 160px);
+    height: 150px;
+    width: 350px;
+    padding: 10px;
+    z-index: 2;
+}
+
+.register span {
+    width: 250px;
+    height: 40px;
+    line-height: 60px;
+    font-size: 12px;
+
+}
+
+.register input[type=text]{
+    width: 250px;
+    height: 30px;
+    font-family: 'Oswald', sans-serif !important;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 0px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px;
+}
+
+.register input[type=password]{
+    width: 250px;
+    height: 30px;
+    font-family: 'Oswald', sans-serif !important;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 0px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px;
+    margin-top: 10px;
+}
+
+.register input[type=submit]{
+    width: 260px;
+    height: 35px;
+    font-family: 'Oswald', sans-serif !important;
+    background: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    border-radius: 0px;
+    color: black;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.register input[type=submit]:hover{
+    opacity: 0.8;
+}
+
+.register input[type=submit]:active{
+    opacity: 0.6;
+}
+
+.register input[type=text]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+}
+
+.register input[type=password]:focus{
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.9);
+}
+
+.register input[type=submit]:focus{
+    outline: none;
+}
+
+::-webkit-input-placeholder{
+    color: rgba(255,255,255,0.6);
+}
+
+::-moz-input-placeholder{
+    color: rgba(255,255,255,0.6);
+}
+
+.Divider{
+    float: right;
+    border-left: 1px solid white;
+    color: rgba(255,0,0,0);
+    height: 100%;
+    margin-left: 5px;
+    padding-right: 0px;
+    margin-right : 0px;
+}
+
