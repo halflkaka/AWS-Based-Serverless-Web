@@ -11,7 +11,17 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/demo');
+
+var db = mongoose.connection;
+db.once('open', function() {
+  // we're connected!
+  console.log("connected to mongodb");
+});
+db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -26,6 +36,8 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.secret = "THE SECRET!!!!!!";
 
 // error handler
 app.use(function(err, req, res, next) {
