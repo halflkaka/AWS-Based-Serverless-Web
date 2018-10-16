@@ -5,4 +5,7 @@ Zhengnyu Hu (zh2317)
 
 Zirui Tan (zt2219)
 
-Ang Li(al3699)
+Ang Li(al3699) al3699@columbia.edu
+
+
+
