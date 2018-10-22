@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="/stylesheets/index/index.css">
   <link rel="stylesheet" href="/javascripts/lib/sweetalert/sweetalert.css">
   <script src="/javascripts/lib/sweetalert/sweetalert.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="/javascripts/smtp.js"></script>
 </head>
 
 <body>
@@ -19,16 +21,13 @@
 <div class="register">
   <span>Please input your username and password:</span>
   <form method="post" action="/users/register" id="loginForm">
-    <input type="text" placeholder="Email" name="email"><br>
+    <input type="text" id = "to" placeholder="Email" name="email"><br>
     <input type="password" placeholder="Name" name="name"><br>
     <input type="password" placeholder="Password" name="password"><br>
-    <input  value="Register" type="submit" id="registerButton">
+    <input  value="Register" type="submit" id="send_email">
+    <span id="message"></span>
   </form>
 </div>
-
-<script>
-
-</script>
 
 </body>
 </html>
