@@ -19,9 +19,9 @@
 
 
 ## 10/22
-实现Facebook登录
-实现注册邮件验证 by nodemailer
-实现对用户密码加密 by bcrypt
+实现Facebook登录  
+实现注册邮件验证 by nodemailer  
+实现对用户密码加密 by bcrypt  
 改了下架构
 ### TODO
 - 定义一下每个功能的api，可以各自开始做
