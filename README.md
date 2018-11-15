@@ -28,7 +28,7 @@
 
 
 ## 11/15
-Elastic beanstalk的一些  
+Elastic beanstalk的一些坑
 - IAM里添加User，给User添加权限
 - 打包上传后会报错，要在Configuration里加一个npm start命令，并配置Database为Mysql
 - 本地连接远程Mysql会显示没有权限，要在EC2下面给数据库Internal添加访问权限
