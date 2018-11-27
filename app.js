@@ -7,22 +7,52 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// var session = require('client-sessions');
+var expressSession = require('express-session');
+
 var app = express();
+
+
+//sessions
+app.use(expressSession({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//mongodb
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/demo');
+// DataBase 
+var mysql = require('mysql');
 
-var db = mongoose.connection;
-db.once('open', function() {
-  // we're connected!
-  console.log("connected to mongodb");
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "shicanjie0127",
+    // host: process.env.RDS_HOSTNAME,
+    // user: process.env.RDS_USERNAME,
+    // password: process.env.RDS_PASSWORD,
+    // port: process.env.RDS_PORT,
+    database: "rds"
+    // socketPath: '/tmp/mysql.sock'
 });
-db.on('error', console.error.bind(console, 'connection error:'));
+
+con.connect(function(err) {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    console.log('connecting success');
+});
+
+// db state
+app.use(function(req, res, next) {
+  req.con = con;
+  next();
+});
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,12 +63,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.secret = "THE SECRET!!!!!!";
 
 // error handler
 app.use(function(err, req, res, next) {

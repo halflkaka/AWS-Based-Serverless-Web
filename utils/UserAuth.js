@@ -1,90 +1,93 @@
 let Login = require('../modules/RESTlogin');
-let smtpTransport = require('./SMTP');
-var userModel = require('../models/userModel');
 
 var rand,mailOptions,host,link;
 
 module.exports = {
-    authentication: function(req, res, next) {
+    login: function(req, res, next) {
         let user = {
             email: req.body.email,
-            name: req.body.name,
-            password: req.body.password
-        }
-        var callback = function(data) {
+            password: req.body.password,
+        };
+
+        let db = req.con;
+
+        var callback = function(data){
+            console.log("data:" + data.success);
 
             if(data.success){
                 // req.session.username = user.name;
-                res.redirect('/');
+                data.resource="customers";
+                let url = "/" + data.resource + "/" + data.id;
+                let links = [];
+                links.push({rel: "self", href: url});
+                let result = { msg: "Login", links: links };
+                console.log(url);
+                res.status(201).json(result);
             }else{
-                res.render('login');
+                res.status(500).json("Why is it always me?");
             }
-        }
+        };
 
-        Login.userLogin(callback, user);
+        Login.userLogin(callback, user, db);
     },
+
     registration: function(req, res, next) {
         let user = {
             "email": req.body.email,
             "name": req.body.name,
-            "password": req.body.password
+            "password": req.body.password,
+            "status": 0
         };
 
+        let db = req.con;
+        console.log(req);
         var callback = function(data) {
 
             console.log("data:" + data.success);
 
             if(data.success){
                 // req.session.username = user.name;
-                res.redirect('/');
+                data.resource="customers";
+                let url = "/" + data.resource + "/" + data.id;
+                let links = [];
+                links.push({rel: "self", href: url});
+                let result = { msg: "Created", links: links };
+                console.log(url);
+                res.status(201).json(result);
             }else{
-                res.render('register');
+                res.status(500).json("Why is it always me?");
             }
         };
 
-        Login.userRegister(callback, user);
+        Login.userRegister(callback, user, db);
     },
-    sendEmail: function(req, res, next) {
-        rand=Math.floor((Math.random() * 100) + 54);
-        host=req.get('host');
-        link="http://"+req.get('host')+"/users/verify?id="+rand;
-        mailOptions={
-            to : req.query.to,
-            subject : "Please confirm your Email account",
-            html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
-        }
-        console.log(mailOptions);
-        smtpTransport.sendMail(mailOptions, function(error, response){
-          if(error){
-            console.log(error);
-            res.end("error");
-          }else{
-            console.log("Message sent: " + response.message);
-            res.end("sent");
-          }
-        });
-    },
-    verifyEmail: function(req, res, next) {
-        console.log(req.protocol+":/"+req.get('host'));
-        if((req.protocol+"://"+req.get('host'))==("http://"+host))
-        {
-            console.log("Domain is matched. Information is from Authentic email");
-            if(req.query.id==rand)
-            {
-                console.log("email is verified");
-                res.end("<h1>Email "+mailOptions.to+" is been Successfully verified");
+
+    authentication: function(req, res, next) {
+        let user = {
+            "email" : req.body.email
+        };
+
+        let db = req.con;
+
+        var callback = function(data) {
+            console.log("data:" + data.success);
+
+            if(data.success){
+                // req.session.username = user.name;
+                data.resource="customers";
+                let url = "/" + data.resource + "/" + data.id;
+                let links = [];
+                links.push({rel: "self", href: url});
+                let result = { msg: "Authenticated", links: links };
+                console.log(url);
+                res.status(201).json(result);
+            }else{
+                res.status(500).json("Why is it always me?");
             }
-            else
-            {
-                console.log("email is not verified");
-                res.end("<h1>Bad Request</h1>");
-            }
-        }
-        else
-        {
-            res.end("<h1>Request is from unknown source");
-        }
+        };
+        Login.userAuthenticate(callback, user, db);
     },
+
     checkSession: function(req, res, next){
 
         var sess = req.session;
@@ -96,4 +99,17 @@ module.exports = {
             res.render('login', { title: 'Login', success: false, msg: "Please login first!" });
         }
     },
+    logOut: function(req, res, next) {
+        if (req.session) {
+            // delete session object
+            req.session.destroy(function(err) {
+              if(err) {
+                return next(err);
+              } else {
+                return res.redirect('/');
+              }
+            });
+        }
+        
+    }
 }
