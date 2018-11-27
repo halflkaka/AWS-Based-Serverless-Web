@@ -1,37 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="./stylesheets/index/index.css">
-  <link rel="stylesheet" href="./javascripts/lib/sweetalert/sweetalert.css">
-  <script src="./javascripts/lib/sweetalert/sweetalert.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="./javascripts/smtp.js"></script>
-</head>
-
-<body>
-
-<div class="body"></div>
-<div class="grad"></div>
-
-<br>
-<div class="register">
-  <span>Please input your username and password:</span>
-  <form method="post" action="http://furniture-dev.us-east-1.elasticbeanstalk.com/users/register" id="loginForm">
-    <input type="text" id = "to" placeholder="Email" name="email"><br>
-    <input type="password" placeholder="Name" name="name"><br>
-    <input type="password" placeholder="Password" name="password"><br>
-    <input  value="Register" type="submit" id="send_email">
-    <span id="message"></span>
-  </form>
-</div>
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html>
 
@@ -43,7 +9,6 @@
   <link rel="stylesheet" href="./javascripts/lib/sweetalert/sweeralert.css">
   <script src="./javascripts/lib/sweetalert/sweetalert.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <!-- <script src="./javascripts/smtp.js"></script> -->
 </head>
 
 <body>
@@ -60,18 +25,21 @@
     <input type="password" id = "password" placeholder="Password" name="password"><br>
     <script type = text/javascript>
       function sub(){
+        var email = $("input[name='email']").val();
+        var password = $("input[name='password']").val();
+        var name = $("input[name='name']").val();
         $.ajax({
           type: "POST",
-          url: "http://localhost:3000/users/register",
+          url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/register",
           contentType: "application/json",
-          data: JSON.stringify({email: "cs3736", name: "123", password: "123"}),
+          data: JSON.stringify({email: email, name: name, password: password}),
           error: function(e){
             console.log(e);
             alert("User already exists!");
           },
           success:function(data){
             console.log('success');
-            alert("Please check your email");
+            alert("Email is sent!");
           }
         });
       }

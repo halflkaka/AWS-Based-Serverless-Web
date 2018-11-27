@@ -1,9 +1,11 @@
 let Login = require('../modules/RESTlogin');
+let hash = require('../lib/salthash');
+let jwt = require('jsonwebtoken');
 
-var rand,mailOptions,host,link;
 
 module.exports = {
     login: function(req, res, next) {
+        // var hashedPW = hash.saltAndHash(req.body.password);
         let user = {
             email: req.body.email,
             password: req.body.password,
@@ -20,7 +22,8 @@ module.exports = {
                 let url = "/" + data.resource + "/" + data.id;
                 let links = [];
                 links.push({rel: "self", href: url});
-                let result = { msg: "Login", links: links };
+                var token=jwt.sign({user},'my_secret');
+                let result = { msg: "Login", links: links, token: token};
                 console.log(url);
                 res.status(201).json(result);
             }else{
@@ -32,10 +35,11 @@ module.exports = {
     },
 
     registration: function(req, res, next) {
+        var hashedPW = hash.saltAndHash(req.body.password);
         let user = {
             "email": req.body.email,
             "name": req.body.name,
-            "password": req.body.password,
+            "password": hashedPW,
             "status": 0
         };
 
