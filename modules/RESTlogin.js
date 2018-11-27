@@ -1,32 +1,9 @@
 // var userModel = require('../models/userModel');
 // let bcrypt = require('bcrypt');
 let notification = require('../middleware/notification');
+let hash = require('../lib/salthash');
 
 module.exports = {
-    //login
-    // userLogin: function(callback, userInfo) {
-    //     let data = {
-    //         success : null,
-    //         message : "",
-    //         user : ""
-    //     };
-    //     let user = userInfo.email;
-    //     let password = userInfo.password;
-
-    //     userModel.findOne({email: user}).exec(function(err, User) {
-    //         bcrypt.compare(password, User.password, function (err, result) {
-    //             if (result === true) {
-    //                 data.success = true;
-    //                 data.user = User.name;
-    //                 data.message = "Welcome " + userInfo.name + " .";
-    //             } else {
-    //                 data.success = false;
-    //                 data.message = "Authentication failed";
-    //             }
-    //             callback(data);
-    //         });
-    //     });
-    // },
 
     userLogin: function(callback, userInfo, db){
         let data = {
@@ -37,12 +14,13 @@ module.exports = {
 
         db.query(
             {
-                sql: 'SELECT * FROM users WHERE email = ? and password = ? and status = 1', 
-                values: [userInfo.email, userInfo.password],
+                sql: 'SELECT * FROM users WHERE email = ? and status = 1',
+                values: userInfo.email,
                 timeout: 40000,
             },
             function(err, rows){
-                if (rows){
+                if (rows.length > 0 && hash.compare(userInfo.password, rows[0].password)){
+                    console.log(rows);
                     data.success = true;
                     data.message = 'Login succeed';
                 } else{
