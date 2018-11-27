@@ -4,7 +4,7 @@
   "description": "COMS 6156",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -17,16 +17,16 @@
   },
   "homepage": "https://github.com/halflkaka/Second-hand-furniture-trading-website#readme",
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "aws-sdk": "^2.362.0",
+    "client-sessions": "^0.8.0",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.3",
-    "mongoose": "^5.3.4",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "morgan": "^1.9.1",
-    "nodemailer": "^4.6.8",
     "promise": "^8.0.2",
     "sails-mongo": "^1.0.1",
-    "sails-mysql": "^1.0.0",
-    "waterline": "^0.13.5"
+    "sails-mysql": "^1.0.1",
+    "waterline": "^0.13.6"
   }
 }
