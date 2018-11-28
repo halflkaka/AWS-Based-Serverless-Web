@@ -23,10 +23,14 @@ module.exports = {
                     console.log(rows);
                     data.success = true;
                     data.message = 'Login succeed';
-                } else{
+                } else if (rows.length === 0) {
                     console.log("Error! No exist user!");
                     data.success = false;
-                    data.message = 'Login failed';
+                    data.message = 'User does no exist!';
+                } else if (!hash.compare(userInfo.password, rows[0].password)) {
+                    console.log("Error! Wrong password!");
+                    data.success = false;
+                    data.message = 'Wrong password!';
                 }
                 callback(data);
             }
@@ -49,8 +53,9 @@ module.exports = {
             } else {
                 data.success = true;
                 data.message = "Register succeed";
+                notification.registrationNotification(userInfo);
             }
-            notification.registrationNotification(userInfo);
+            // notification.registrationNotification(userInfo);
             callback(data);
         });
     },
