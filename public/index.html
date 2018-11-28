@@ -6,6 +6,9 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="577145700233-8jqcdshv8hpektmiiutog3dot4800ju4.apps.googleusercontent.com">
+    
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
@@ -87,6 +90,28 @@
                 <a href="cart.html" class="cart-nav"><img src="img/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
                 <a href="#" class="fav-nav"><img src="img/core-img/favorites.png" alt=""> Favourite</a>
                 <a href="#" class="search-nav"><img src="img/core-img/search.png" alt=""> Search</a>
+                <script>
+                    function onLoad() {
+                        gapi.load('auth2', function(){
+                            gapi.auth2.init();
+                        });
+                    }
+                    function logout() {
+                        if (window.sessionStorage.getItem("google-token")) {
+                            var auth2 = gapi.auth2.getAuthInstance();
+                            auth2.signOut().then(function () {
+                                console.log('User signed out.');
+                                window.sessionStorage.clear();
+                                window.location.href = "login.html";
+                            });
+                        } else {
+                            window.sessionStorage.clear();
+                            window.location.href = "login.html";
+                        }
+                    }
+                </script>
+                <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+                <button onclick="logout()" class="search-nav"><img src="img/core-img/search.png" alt=""> Logout</button>
             </div>
             <!-- Social Button -->
             <div class="social-info d-flex justify-content-between">

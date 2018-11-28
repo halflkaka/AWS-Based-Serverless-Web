@@ -14,12 +14,12 @@ module.exports = {
 
         db.query(
             {
-                sql: 'SELECT * FROM users WHERE email = ? and status = 1',
+                sql: 'SELECT * FROM users WHERE email = ?',
                 values: userInfo.email,
                 timeout: 40000,
             },
             function(err, rows){
-                if (rows.length > 0 && hash.compare(userInfo.password, rows[0].password)){
+                if (rows.length > 0 && hash.compare(userInfo.password, rows[0].password) && rows[0].status === 1){
                     console.log(rows);
                     data.success = true;
                     data.message = 'Login succeed';
@@ -31,6 +31,10 @@ module.exports = {
                     console.log("Error! Wrong password!");
                     data.success = false;
                     data.message = 'Wrong password!';
+                } else if (rows[0].status !== 1) {
+                    console.log("Error! Not activate!");
+                    data.success = false;
+                    data.message = 'User is not activated!';
                 }
                 callback(data);
             }
