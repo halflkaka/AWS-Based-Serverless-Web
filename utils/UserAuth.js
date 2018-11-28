@@ -24,7 +24,8 @@ module.exports = {
                 links.push({rel: "self", href: url});
                 var token=jwt.sign({user},'my_secret');
                 let result = { msg: "Login", links: links, token: token};
-                console.log(url);
+                res.set("Authorization", result.token);
+                res.cookie('token', token);
                 res.status(201).json(result);
             }else{
                 res.status(500).json("Why is it always me?");

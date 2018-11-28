@@ -30,13 +30,13 @@ app.set('view engine', 'ejs');
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-    // host: "localhost",
-    // user: "root",
-    // password: "shicanjie0127",
-    host: process.env.RDS_HOSTNAME,
-    user: process.env.RDS_USERNAME,
-    password: process.env.RDS_PASSWORD,
-    port: process.env.RDS_PORT,
+    host: "localhost",
+    user: "root",
+    password: "shicanjie0127",
+    // host: process.env.RDS_HOSTNAME,
+    // user: process.env.RDS_USERNAME,
+    // password: process.env.RDS_PASSWORD,
+    // port: process.env.RDS_PORT,
     database: "rds"
     // socketPath: '/tmp/mysql.sock'
 });

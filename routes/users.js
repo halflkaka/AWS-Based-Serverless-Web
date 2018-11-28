@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-// var userModel = require('../models/userModel');
 var UserAuth = require('../utils/UserAuth');
 var jwt = require('jsonwebtoken');
+var cookies = require("cookie-parser");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -28,22 +28,26 @@ router.post('/tokensignin', function(req, res, next) {
   res.status(201).json(result);
 });
 
-router.get('/secret', ensureToken, function(req, res, next) {
-  jwt.verify(req.token, "my_secret", function(err, data) {
+router.post('/verify', function(req, res, next) {
+  console.log(req.body.token);
+  jwt.verify(req.body.token, "my_secret", function(err, decoded) {
     if (err) {
       console.log("error");
       res.sendStatus(403);
     } else {
-      console.log("sd");
-      res.json({
-        description: 'Protected information. Congrats!'
-      });
+      console.log(decoded);
+      let result = {username: decoded.user.email};
+      console.log(result.username);
+      res.status(201).json(result);
     }
   });
 });
 
 function ensureToken(req, res, next) {
   const token = req.headers["authorization"];
+  console.log('Verifying token', token);
+  // let token = sessionStorage.getItem('accessToken');
+  console.log(token);
   if (typeof token !== 'undefined') {
     req.token = token;
     next();
