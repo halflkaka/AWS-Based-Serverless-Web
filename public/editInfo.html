@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <body>
 
 <!-- Navbar (sit on top) -->
@@ -129,6 +130,35 @@
 
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
 <script>
+    function inputBody(body){
+        console.log(body);
+        axios.post('https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile', {
+            username: body.username,
+            // currentToken: body.currentToken,
+            // password: body.password,
+            age: body.age,
+            gender: body.gender,
+            phone: body.phone,
+            address: body.address
+        }); 
+    };
+
+    function getBody(username){
+        axios.get(`https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile/${username}`)
+        .then(function (response) {
+            data = response.data;
+            document.getElementById("gender").value = data.gender;
+            document.getElementById("age").value = data.age;
+            document.getElementById("phone").value = data.phone;
+            document.getElementById("address").value = data.address;
+            console.log(data);
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
+    };
+</script>
+<script>
     var username = "";
     function showUser(){
         AWS.config.update({region: 'us-east-1', accessKeyId:"AKIAJVHWKMZVJQBSYXZA", secretAccessKey:"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"});
@@ -138,24 +168,7 @@
         console.log(username);
         document.getElementById("p2").innerHTML = username;
 
-        var params = {
-              TableName: 'userProfile',
-              Key: {
-                'username' : {S: username}
-              }
-            };
-            ddb.getItem(params, function(err, data) {
-              if (err) {
-                console.log("Error", err);
-              } else {
-                console.log(data);
-                document.getElementById("gender").value = data.Item.gender.S;
-                document.getElementById("age").value = data.Item.age.S;
-                document.getElementById("phone").value = data.Item.phone.S;
-                document.getElementById("address").value = data.Item.address.S;
-                console.log("Success", data.Item);
-              }
-            });
+        getBody(username);
     };
     showUser();
 
@@ -169,27 +182,17 @@
       AWS.config.update({region: 'us-east-1', accessKeyId:"AKIAJVHWKMZVJQBSYXZA", secretAccessKey:"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"});
       ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
 
-            
-            var params = {
-                TableName:"userProfile",
-                Item:{
-                    "username": {S: username},
-                    "gender" : {S: usergender},
-                    "age" : {S: userage},
-                    "phone": {S: userphone},
-                    "address": {S: useraddress}
-                }
-            };
+      let data = {
+        "username": username,
+        "gender" : usergender,
+        "age" : userage,
+        "phone": userphone,
+        "address": useraddress
+      };
 
-            // Call DynamoDB to add the item to the table
-            ddb.putItem(params, function(err, data) {
-                if (err) {
-                console.log("Error", err);
-                } else {
-                console.log("Success", data);
-                window.location.href = "info.html";
-                }
-            });
+        inputBody(data);
+
+        window.location.href = "info.html";
     }
 </script>
 

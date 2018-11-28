@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <body>
 
 <!-- Navbar (sit on top) -->
@@ -131,6 +132,29 @@
 
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
 <script>
+  function inputBody(body){
+        console.log(body);
+        axios.post('https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile', {
+            username: body.username,
+        }); 
+  };
+
+  function getBody(username){
+    axios.get(`https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile/${username}`)
+    .then(function (response) {
+        data = response.data;
+        document.getElementById("gender").innerHTML = data.gender;
+        document.getElementById("age").innerHTML = data.age;
+        document.getElementById("phone").innerHTML = data.phone;
+        document.getElementById("address").innerHTML = data.address;
+        console.log(data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+</script>
+<script>
       function get_info(){
         AWS.config.update({region: 'us-east-1', accessKeyId:"AKIAJVHWKMZVJQBSYXZA", secretAccessKey:"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"});
         ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
@@ -139,8 +163,8 @@
 
         $.ajax({
           type: "POST",
-          // url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/verify",
-          url: "http://localhost:3000/users/verify",
+          url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/verify",
+          // url: "http://localhost:3000/users/verify",
           contentType: "application/json",
           data: JSON.stringify({token: token}),
           error: function(e){
@@ -151,25 +175,10 @@
             username = data.username;
             window.sessionStorage.setItem("user", username);
             document.getElementById("p2").innerHTML = username;
+            
+            inputBody({"username": username});
 
-            var params = {
-              TableName: 'userProfile',
-              Key: {
-                'username' : {S: username}
-              }
-            };
-            ddb.getItem(params, function(err, data) {
-              if (err) {
-                console.log("Error", err);
-              } else {
-                console.log(data);
-                document.getElementById("gender").innerHTML = data.Item.gender.S;
-                document.getElementById("age").innerHTML = data.Item.age.S;
-                document.getElementById("phone").innerHTML = data.Item.phone.S;
-                document.getElementById("address").innerHTML = data.Item.address.S;
-                console.log("Success", data.Item);
-              }
-            });
+            getBody(username);
           }
         });
       }

@@ -85,19 +85,21 @@
         var password = $("input[name='password']").val();
         $.ajax({
           type: "POST",
-          // url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/login",
-          url:"http://localhost:3000/users/login",
+          url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/login",
           contentType: "application/json",
           data: JSON.stringify({email: email, password: password}),
           error: function(e){
             console.log(e);
-            alert("Wrong password");
+            alert("Something wrong");
           },
           success:function(data){
             console.log(data);
-            window.sessionStorage.setItem('access-token', data.token);
-            // window.sessionStorage.accessToken = data.token;
-            window.location.href = "http://elasticbeanstalk-us-east-1-150839922657.s3-website-us-east-1.amazonaws.com/index.html";
+            if (data.error) {
+              alert(data.error);
+            } else {
+              window.sessionStorage.setItem('access-token', data.token);
+              window.location.href = "http://elasticbeanstalk-us-east-1-150839922657.s3-website-us-east-1.amazonaws.com/index.html";
+            }
           }
         });
       }

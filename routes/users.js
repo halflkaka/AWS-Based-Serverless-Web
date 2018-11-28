@@ -43,20 +43,6 @@ router.post('/verify', function(req, res, next) {
   });
 });
 
-function ensureToken(req, res, next) {
-  const token = req.headers["authorization"];
-  console.log('Verifying token', token);
-  // let token = sessionStorage.getItem('accessToken');
-  console.log(token);
-  if (typeof token !== 'undefined') {
-    req.token = token;
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-};
-
-
 // router.get('/logout', UserAuth.logOut);
 
 module.exports = router;

@@ -28,7 +28,8 @@ module.exports = {
                 res.cookie('token', token);
                 res.status(201).json(result);
             }else{
-                res.status(500).json("Why is it always me?");
+                let result = { error: data.message};
+                res.status(201).json(result);
             }
         };
 
@@ -51,7 +52,6 @@ module.exports = {
             console.log("data:" + data.success);
 
             if(data.success){
-                // req.session.username = user.name;
                 data.resource="customers";
                 let url = "/" + data.resource + "/" + data.id;
                 let links = [];
@@ -78,7 +78,6 @@ module.exports = {
             console.log("data:" + data.success);
 
             if(data.success){
-                // req.session.username = user.name;
                 data.resource="customers";
                 let url = "/" + data.resource + "/" + data.id;
                 let links = [];
@@ -91,30 +90,5 @@ module.exports = {
             }
         };
         Login.userAuthenticate(callback, user, db);
-    },
-
-    checkSession: function(req, res, next){
-
-        var sess = req.session;
-
-        if (sess.hasOwnProperty('username')){
-            next();
-        }
-        else{
-            res.render('login', { title: 'Login', success: false, msg: "Please login first!" });
-        }
-    },
-    logOut: function(req, res, next) {
-        if (req.session) {
-            // delete session object
-            req.session.destroy(function(err) {
-              if(err) {
-                return next(err);
-              } else {
-                return res.redirect('/');
-              }
-            });
-        }
-        
     }
 }
