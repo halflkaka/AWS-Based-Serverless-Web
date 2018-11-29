@@ -39,3 +39,9 @@ Elastic beanstalk的一些坑
 - API Gateway/Lambda Function
 - JWT/Session
 - S3/Elastic Beanstalk
+
+- Static files(.html, .css, .js) are stored in S3，host a static web.
+- Deploy routers on Elastic Beanstalk. Use AWS RDS to store username and password. Use salthash to encode password.
+- After registration, notify SNS, trigger Lambda function, send email verification. Activate user.
+- After login, generate token, add token into sessionStorage.
+- Check user profile, decode token into username, go through API Gateway, search in DynamoDB. Edit profile and update in DynamoDB.
