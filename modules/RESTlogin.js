@@ -1,5 +1,3 @@
-// var userModel = require('../models/userModel');
-// let bcrypt = require('bcrypt');
 let notification = require('../middleware/notification');
 let hash = require('../lib/salthash');
 
@@ -59,7 +57,6 @@ module.exports = {
                 data.message = "Register succeed";
                 notification.registrationNotification(userInfo);
             }
-            // notification.registrationNotification(userInfo);
             callback(data);
         });
     },

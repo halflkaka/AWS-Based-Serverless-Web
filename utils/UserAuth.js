@@ -94,6 +94,21 @@ module.exports = {
         Login.userAuthenticate(callback, user, db);
     },
 
+    verifyToken: function(req, res, next) {
+        console.log(req.body.type);
+        jwt.verify(req.body.token, "my_secret", function(err, decoded) {
+          if (err) {
+            console.log("error");
+            res.sendStatus(403);
+          } else {
+            console.log(decoded);
+            let result = {username: decoded.user.email};
+            console.log(result.username);
+            res.status(201).json(result);
+          }
+        });
+    },
+
     googleToken: async function(req, res, next) {
         const ticket = await client.verifyIdToken({
             idToken: req.body.token,
