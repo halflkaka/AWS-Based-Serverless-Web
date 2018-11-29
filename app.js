@@ -7,19 +7,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cors = require('cors');
-// var session = require('client-sessions');
 var expressSession = require('express-session');
 
 var app = express();
 app.use(cors());
 
-
-//sessions
-app.use(expressSession({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
-}));
 
 
 // view engine setup
@@ -38,7 +30,6 @@ var con = mysql.createConnection({
     password: process.env.RDS_PASSWORD,
     port: process.env.RDS_PORT,
     database: "rds"
-    // socketPath: '/tmp/mysql.sock'
 });
 
 con.connect(function(err) {
