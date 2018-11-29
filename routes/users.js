@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var UserAuth = require('../utils/UserAuth');
 var jwt = require('jsonwebtoken');
-var cookies = require("cookie-parser");
+// const {OAuth2Client} = require('google-auth-library');
+// const client = new OAuth2Client("577145700233-8jqcdshv8hpektmiiutog3dot4800ju4.apps.googleusercontent.com");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -22,14 +23,10 @@ router.post('/register', UserAuth.registration);
 
 router.post('/authenticate', UserAuth.authentication);
 
-router.post('/tokensignin', function(req, res, next) {
-  console.log(req.body);
-  let result = { msg: "Login"};
-  res.status(201).json(result);
-});
+router.post('/tokensignin', UserAuth.googleToken);
 
 router.post('/verify', function(req, res, next) {
-  console.log(req.body.token);
+  console.log(req.body.type);
   jwt.verify(req.body.token, "my_secret", function(err, decoded) {
     if (err) {
       console.log("error");

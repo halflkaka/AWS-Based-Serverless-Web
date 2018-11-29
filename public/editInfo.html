@@ -147,6 +147,7 @@
         axios.get(`https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile/${username}`)
         .then(function (response) {
             data = response.data;
+            console.log(data);
             document.getElementById("gender").value = data.gender;
             document.getElementById("age").value = data.age;
             document.getElementById("phone").value = data.phone;

@@ -1,6 +1,8 @@
 let Login = require('../modules/RESTlogin');
 let hash = require('../lib/salthash');
 let jwt = require('jsonwebtoken');
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client("577145700233-8jqcdshv8hpektmiiutog3dot4800ju4.apps.googleusercontent.com");
 
 
 module.exports = {
@@ -90,5 +92,19 @@ module.exports = {
             }
         };
         Login.userAuthenticate(callback, user, db);
+    },
+
+    googleToken: async function(req, res, next) {
+        const ticket = await client.verifyIdToken({
+            idToken: req.body.token,
+            audience: "577145700233-8jqcdshv8hpektmiiutog3dot4800ju4.apps.googleusercontent.com"  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+        const payload = ticket.getPayload();
+        const userid = payload['sub'];
+        console.log(payload['email']);
+        
+        res.status(201).json({"username": payload['email']});
     }
 }

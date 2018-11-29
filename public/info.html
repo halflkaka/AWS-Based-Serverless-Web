@@ -136,18 +136,39 @@
         console.log(body);
         axios.post('https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile', {
             username: body.username,
+            gender: body.gender,
+            age: body.age,
+            phone: body.phone,
+            address: body.address
         }); 
   };
 
   function getBody(username){
     axios.get(`https://uvf9clstk8.execute-api.us-east-1.amazonaws.com/login/profile/${username}`)
     .then(function (response) {
-        data = response.data;
-        document.getElementById("gender").innerHTML = data.gender;
-        document.getElementById("age").innerHTML = data.age;
-        document.getElementById("phone").innerHTML = data.phone;
-        document.getElementById("address").innerHTML = data.address;
-        console.log(data);
+        console.log(response);
+        if (response.data === null) {
+          console.log("null");
+          document.getElementById("gender").innerHTML = "";
+          document.getElementById("age").innerHTML = "";
+          document.getElementById("phone").innerHTML = "";
+          document.getElementById("address").innerHTML = "";
+          let data = {
+            username: username,
+            gender: " ",
+            age: " ",
+            phone: " ",
+            address: " "
+          };
+          inputBody(data);
+        } else {
+          data = response.data;
+          document.getElementById("gender").innerHTML = data.gender;
+          document.getElementById("age").innerHTML = data.age;
+          document.getElementById("phone").innerHTML = data.phone;
+          document.getElementById("address").innerHTML = data.address;
+          console.log(data);
+        }
     })
     .catch(function (error) {
       console.log(error);
@@ -158,15 +179,45 @@
       function get_info(){
         AWS.config.update({region: 'us-east-1', accessKeyId:"AKIAJVHWKMZVJQBSYXZA", secretAccessKey:"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"});
         ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
-        var token = sessionStorage.getItem("access-token");
+        var token = "";
+        var type = "";
+        if (sessionStorage.getItem("google-token")) {
+          token = sessionStorage.getItem("google-token");
+          type = "google";
+        } else {
+          token = sessionStorage.getItem("access-token");
+          type = "normal";
+        }
         
+        if (type === "google") {
+          $.ajax({
+            type: "POST",
+            url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/tokensignin",
+            // url: "http://localhost:3000/users/tokensignin",
+            contentType: "application/json",
+            data: JSON.stringify({token: token}),
+            error: function(e){
+              console.log(e);
+              alert("Something wrong in google");
+            },
+            success:function(data){
+              console.log(data);
+              username = data.username;
+              window.sessionStorage.setItem("user", username);
+              document.getElementById("p2").innerHTML = username;
+              
+              // inputBody({"username": username});
 
+              getBody(username);
+            }
+        });
+      } else {
         $.ajax({
           type: "POST",
           url: "http://furniture-dev.us-east-1.elasticbeanstalk.com/users/verify",
           // url: "http://localhost:3000/users/verify",
           contentType: "application/json",
-          data: JSON.stringify({token: token}),
+          data: JSON.stringify({token: token, type:type}),
           error: function(e){
             console.log(e);
             alert("Token wrong!");
@@ -176,13 +227,13 @@
             window.sessionStorage.setItem("user", username);
             document.getElementById("p2").innerHTML = username;
             
-            inputBody({"username": username});
-
+            // inputBody({"username": username, });
             getBody(username);
           }
         });
       }
-      get_info();
+    };
+    get_info();
 </script>
 
 <script>
